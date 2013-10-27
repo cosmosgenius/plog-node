@@ -1,0 +1,26 @@
+{
+  "name": "plog-node",
+  "version": "0.0.1",
+  "description": "Personal Logger",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "express": "~3.4.x",
+    "mongoose": "~3.6.x"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cosmosgenius/plog-node.git"
+  },
+  "author": "Sharat M R",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/cosmosgenius/plog-node/issues"
+  }
+}
