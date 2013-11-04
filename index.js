@@ -7,6 +7,7 @@ var mongoose    =   require('mongoose'),
 var Log = mongoose.model('Log',{log:String}),
     app = express();
 
+var MONGOURI = "mongodb://localhost/test";
 app.use(express.logger('dev'));
 app.use(function(req, res, next) {
     var data = '';
@@ -24,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.get('/', function(req, res) {
-    mongoose.connect("mongodb://localhost/test");
+    mongoose.connect(MONGOURI);
     Log.find(function(err,logs){
         res.json(logs);
         mongoose.disconnect();
@@ -32,7 +33,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/',function(req, res) {
-    mongoose.connect("mongodb://localhost/test");
+    mongoose.connect(MONGOURI);
     var newlog = new Log({log: req.rawBody});
     newlog.save(function(err){
         mongoose.disconnect();
