@@ -5,4 +5,4 @@ var logSchema = new mongoose.Schema({
     log: String
 });
 
-module.exports = mongoose.model('Log', logSchema );
+module.exports = mongoose.model('Log', logSchema);

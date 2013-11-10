@@ -1,14 +1,14 @@
 /*jslint node: true */
 'use strict';
 
-try{
+try {
     var config  =   require('./instance/config');
-}catch(err){
-    switch(err.code){
-        case 'MODULE_NOT_FOUND':
-            throw 'Config.js doesn\'t exist instance folder.';
-        default :
-            throw err;
+} catch (err) {
+    switch (err.code) {
+    case 'MODULE_NOT_FOUND':
+        throw 'Config.js doesn\'t exist instance folder.';
+    default:
+        throw err;
     }
 }
 var mongoose    =   require('mongoose'),
@@ -38,32 +38,56 @@ app.use(function(req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get('/', function(req, res) {
-    return Log.find(function(err,logs){
-        if(err){
+app.get('/log', function(req, res) {
+    return Log.find(function(err, logs) {
+        if (err) {
             return console.dir(err);
         }
         return res.json(logs);
     });
 });
 
-app.post('/',function(req, res) {
-    var newlog = new Log({log: req.rawBody});
-    newlog.save(function(err){
-        if(err){
-            console.dir(err);
+app.get('/log/:id', function(req, res) {
+    return Log.findById(req.params.id, function(err, log) {
+        if (err) {
+            return console.dir(err);
         }
+        return res.json(log);
     });
-    res.send("Log Added");
 });
 
-server.listen( config.port, function(err) {
-    console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env );
+app.post('/log', function(req, res) {
+    var newlog = new Log({log: req.rawBody});
+    newlog.save(function(err) {
+        if (err) {
+            return console.dir(err);
+        }
+        console.log('created');
+    });
+    return res.json(newlog);
+});
+
+app.del('/log/:id', function (req, res) {
+    return Log.findById(req.params.id, function (err, log) {
+        return log.remove(function (err) {
+            if (!err) {
+                console.log('removed');
+            } else {
+                console.log(err);
+            }
+            return res.send('');
+        });
+    });
+});
+
+
+server.listen(config.port, function(err) {
+    console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
 });
 
 process.on('SIGINT', function() {
-  mongoose.connection.close(function () {
-    console.log('Mongoose disconnected on app termination');
-    process.exit(0);
-  });
+    mongoose.connection.close(function () {
+        console.log('Mongoose disconnected on app termination');
+        process.exit(0);
+    });
 });
