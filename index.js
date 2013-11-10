@@ -1,12 +1,8 @@
 /*jslint node: true */
 'use strict';
 
-var mongoose    =   require('mongoose'),
-    express     =   require('express'),
-    http      =   require('http');
-
 try{
-    var config      =   require('./instance/config');
+    var config  =   require('./instance/config');
 }catch(err){
     switch(err.code){
         case 'MODULE_NOT_FOUND':
@@ -15,10 +11,16 @@ try{
             throw err;
     }
 }
+var mongoose    =   require('mongoose'),
+    express     =   require('express'),
+    http        =   require('http');
 
-var Log     = mongoose.model('Log',{log:String}),
-    app     = express(),
-    server  = http.createServer(app);
+
+
+var Log         =   require('./models').Log,
+    app         =   express(),
+    server      =   http.createServer(app);
+
 
 app.use(express.logger('dev'));
 app.use(function(req, res, next) {
@@ -37,11 +39,11 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.get('/', function(req, res) {
-    Log.find(function(err,logs){
+    return Log.find(function(err,logs){
         if(err){
-            console.dir(err);
+            return console.dir(err);
         }
-        res.json(logs);
+        return res.json(logs);
     });
 });
 
@@ -54,9 +56,6 @@ app.post('/',function(req, res) {
     });
     res.send("Log Added");
 });
-
-
-mongoose.connect(config.mongouri);
 
 server.listen( config.port, function(err) {
     console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env );
