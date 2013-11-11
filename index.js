@@ -1,23 +1,13 @@
 /*jslint node: true */
 'use strict';
 
-try {
-    var config  =   require('./instance/config');
-} catch (err) {
-    switch (err.code) {
-    case 'MODULE_NOT_FOUND':
-        throw 'Config.js doesn\'t exist instance folder.';
-    default:
-        throw err;
-    }
-}
 var mongoose    =   require('mongoose'),
     express     =   require('express'),
     http        =   require('http');
 
 
-
-var Log         =   require('./models').Log,
+var config      =   require('./instance/config'),
+    Log         =   require('./models').Log,
     app         =   express(),
     server      =   http.createServer(app);
 
