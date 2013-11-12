@@ -47,7 +47,7 @@ app.get('/log/:id', function(req, res) {
 });
 
 app.post('/log', function(req, res) {
-    var newlog = new Log({log: req.rawBody});
+    var newlog = new Log({plog: req.rawBody});
     newlog.save(function(err) {
         if (err) {
             return console.dir(err);
