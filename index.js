@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get('/log', function(req, res) {
+app.get('/plog', function(req, res) {
     return Log.find(function(err, logs) {
         if (err) {
             return console.dir(err);
@@ -37,7 +37,7 @@ app.get('/log', function(req, res) {
     });
 });
 
-app.get('/log/:id', function(req, res) {
+app.get('/plog/:id', function(req, res) {
     return Log.findById(req.params.id, function(err, log) {
         if (err) {
             return console.dir(err);
@@ -46,7 +46,7 @@ app.get('/log/:id', function(req, res) {
     });
 });
 
-app.post('/log', function(req, res) {
+app.post('/plog', function(req, res) {
     var newlog = new Log({plog: req.rawBody});
     newlog.save(function(err) {
         if (err) {
@@ -57,7 +57,7 @@ app.post('/log', function(req, res) {
     return res.json(newlog);
 });
 
-app.del('/log/:id', function (req, res) {
+app.del('/plog/:id', function (req, res) {
     return Log.findById(req.params.id, function (err, log) {
         return log.remove(function (err) {
             if (!err) {
