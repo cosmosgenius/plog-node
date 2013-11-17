@@ -13,7 +13,17 @@ var config      =   require('./instance/config'),
 
 
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(function(req, res, next) {
+    var data = '';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) {
+        data += chunk;
+    });
+    req.on('end', function() {
+        req.rawBody = data;
+        next();
+    });
+});
 
 app.get('/plog', function(req, res) {
     return Log.find(function(err, logs) {
@@ -34,17 +44,28 @@ app.get('/plog/:id', function(req, res) {
 });
 
 app.post('/plog', function(req, res) {
-    var newlog;
-    if (req.body) {
-        newlog = new Log(req.body);
+    var newlog,
+        JSONobj;
+    if (!req.is('json')) {
+        return res.json(400, {error: 'Type should be json'});
+    }
+    if (req.rawBody) {
+        try {
+            JSONobj = JSON.parse(req.rawBody);
+        } catch (e) {
+            return res.json(400, {error: e.message});
+        }
+
+        newlog  = new Log(JSONobj);
         newlog.save(function(err) {
             if (err) {
                 return console.dir(err);
             }
             console.log('created');
         });
+        return res.json(newlog);
     }
-    return res.json(newlog);
+    return res.json(400, {error: 'Request cannot be empty'});
 });
 
 app.del('/plog/:id', function (req, res) {
