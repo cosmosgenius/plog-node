@@ -13,20 +13,7 @@ var config      =   require('./instance/config'),
 
 
 app.use(express.logger('dev'));
-app.use(function(req, res, next) {
-    var data = '';
-    req.setEncoding('utf8');
-    req.on('data', function(chunk) {
-        data += chunk;
-    });
-    req.on('end', function() {
-        req.rawBody = data;
-        next();
-    });
-});
-
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.bodyParser());
 
 app.get('/plog', function(req, res) {
     return Log.find(function(err, logs) {
@@ -47,13 +34,16 @@ app.get('/plog/:id', function(req, res) {
 });
 
 app.post('/plog', function(req, res) {
-    var newlog = new Log({plog: req.rawBody});
-    newlog.save(function(err) {
-        if (err) {
-            return console.dir(err);
-        }
-        console.log('created');
-    });
+    var newlog;
+    if (req.body) {
+        newlog = new Log(req.body);
+        newlog.save(function(err) {
+            if (err) {
+                return console.dir(err);
+            }
+            console.log('created');
+        });
+    }
     return res.json(newlog);
 });
 
