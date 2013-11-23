@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         express: {
             options: {
-              // Override defaults here
+                // Override defaults here
             },
             dev: {
                 options: {
@@ -18,7 +18,23 @@ module.exports = function(grunt) {
                     script: 'index.js',
                     node_env: 'production'
                 }
+            },
+            test: {
+                options: {
+                    script: 'index.js',
+                    node_env: 'test'
+                }
             }
+        },
+        simplemocha: {
+            options: {
+                globals: ['should'],
+                timeout: 3000,
+                ignoreLeaks: false,
+                ui: 'bdd',
+                reporter: 'tap'
+            },
+            all: { src: ['test/**/*.js'] }
         },
         watch: {
             express: {
@@ -34,8 +50,9 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-simple-mocha');
 
     // Default task.
     grunt.registerTask('default', ['express:dev', 'watch']);
-
+    grunt.registerTask('test', ['express:test', 'simplemocha', 'express:test:stop']);
 };
