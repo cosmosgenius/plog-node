@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 app.get('/plog', function(req, res) {
     return Log.find(function(err, logs) {
         if (err) {
-            return console.dir(err);
+            return res.json(err);
         }
         return res.json(logs);
     });
@@ -37,7 +37,7 @@ app.get('/plog', function(req, res) {
 app.get('/plog/:id', function(req, res) {
     return Log.findById(req.params.id, function(err, log) {
         if (err) {
-            return console.dir(err);
+            return res.json(err);
         }
         return res.json(log);
     });
@@ -59,25 +59,31 @@ app.post('/plog', function(req, res) {
         newlog  = new Log(JSONobj);
         newlog.save(function(err) {
             if (err) {
-                return console.dir(err);
+                return res.json(err);
             }
-            console.log('created');
         });
-        return res.json(newlog);
+        return res.json(201, newlog);
     }
     return res.json(400, {error: 'Request cannot be empty'});
 });
 
 app.del('/plog/:id', function (req, res) {
     return Log.findById(req.params.id, function (err, log) {
-        return log.remove(function (err) {
-            if (!err) {
-                console.log('removed');
-            } else {
-                console.log(err);
+        if (log) {
+            return log.remove(function (err) {
+                if (err) {
+                    res.json(err);
+                }
+                return res.send(204);
+            });
+        }
+
+        if (!log) {
+            if (err) {
+                return res.json(err);
             }
-            return res.send('');
-        });
+            return res.json(404, {error: 'Object doesn\'t exist'});
+        }
     });
 });
 
