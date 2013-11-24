@@ -26,15 +26,17 @@ module.exports = function(grunt) {
                 }
             }
         },
-        simplemocha: {
-            options: {
-                globals: ['should'],
-                timeout: 3000,
-                ignoreLeaks: false,
-                ui: 'bdd',
-                reporter: 'tap'
-            },
-            all: { src: ['test/**/*.js'] }
+        mochaTest: {
+            test: {
+                options: {
+                    globals: ['should'],
+                    timeout: 10000,
+                    ignoreLeaks: false,
+                    ui: 'bdd',
+                    reporter: 'spec'
+                },
+                src: ['test/**/*.js']
+            }
         },
         watch: {
             express: {
@@ -50,9 +52,9 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express-server');
-    grunt.loadNpmTasks('grunt-simple-mocha');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     // Default task.
     grunt.registerTask('default', ['express:dev', 'watch']);
-    grunt.registerTask('test', ['express:test', 'simplemocha', 'express:test:stop']);
+    grunt.registerTask('test', ['express:test', 'mochaTest', 'express:test:stop']);
 };
