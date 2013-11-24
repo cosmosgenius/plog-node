@@ -17,6 +17,7 @@ app.configure('production', function() {
 
 app.configure('development', function() {
     app.use(express.logger('dev'));
+    app.use(express.responseTime());
 });
 
 app.use(function(req, res, next) {
