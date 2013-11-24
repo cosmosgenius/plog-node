@@ -11,8 +11,14 @@ var config      =   require('./instance/config'),
     app         =   express(),
     server      =   http.createServer(app);
 
+app.configure('production', function() {
+    app.use(express.logger());
+});
 
-app.use(express.logger('dev'));
+app.configure('development', function() {
+    app.use(express.logger('dev'));
+});
+
 app.use(function(req, res, next) {
     var data = '';
     req.setEncoding('utf8');
