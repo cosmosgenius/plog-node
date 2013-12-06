@@ -43,10 +43,13 @@ app.get('/plog', function(req, res) {
 
 app.get('/plog/:id', function(req, res) {
     return Log.findById(req.params.id, function(err, log) {
+        if (log) {
+            return res.json(log);
+        }
         if (err) {
             return res.json(err);
         }
-        return res.json(log);
+        return res.json(404, {error: 'Object doesn\'t exist'});
     });
 });
 
