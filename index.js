@@ -56,22 +56,24 @@ app.post('/plog', function(req, res) {
     if (!req.is('json')) {
         return res.json(400, {error: 'Type should be json'});
     }
-    if (req.rawBody) {
-        try {
-            JSONobj = JSON.parse(req.rawBody);
-        } catch (e) {
-            return res.json(400, {error: e.message});
-        }
 
-        newlog  = new Log(JSONobj);
-        newlog.save(function(err) {
-            if (err) {
-                return res.json(err);
-            }
-        });
-        return res.json(201, newlog);
+    if (!req.rawBody) {
+        return res.json(400, {error: 'Request cannot be empty'});
     }
-    return res.json(400, {error: 'Request cannot be empty'});
+
+    try {
+        JSONobj = JSON.parse(req.rawBody);
+    } catch (e) {
+        return res.json(400, {error: e.message});
+    }
+
+    newlog  = new Log(JSONobj);
+    newlog.save(function(err, log) {
+        if (err) {
+            return res.json(err);
+        }
+        return res.json(201, log);
+    });
 });
 
 app.del('/plog/:id', function (req, res) {
