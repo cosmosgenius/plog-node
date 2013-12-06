@@ -12,16 +12,19 @@ var request     = require('supertest'),
 request = request('http://localhost:' + config.port);
 var test;
 
+function cleardb(done) {
+    mongoose.connect(config.mongouri, function() {
+        mongoose.connection.db.dropDatabase(function() {
+            done();
+            mongoose.disconnect();
+        });
+    });
+}
+
+
 describe('Plog RestAPI Tests', function() {
     describe('Testing GET function for empty DB', function () {
-        before(function(done) {
-            mongoose.connect(config.mongouri, function() {
-                mongoose.connection.db.dropDatabase(function() {
-                    done();
-                    mongoose.disconnect();
-                });
-            });
-        });
+        before(cleardb);
 
         it('GET /plog', function (done) {
             request
@@ -38,14 +41,7 @@ describe('Plog RestAPI Tests', function() {
     });
 
     describe('Testing POST function', function () {
-        before(function(done) {
-            mongoose.connect(config.mongouri, function() {
-                mongoose.connection.db.dropDatabase(function() {
-                    done();
-                    mongoose.disconnect();
-                });
-            });
-        });
+        before(cleardb);
 
         it('POST /plog', function (done) {
             request
@@ -67,7 +63,7 @@ describe('Plog RestAPI Tests', function() {
                 .get('/plog/' + testData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
-                    res.body.should.include(testData[0]);
+                    res.body.should.eql(testData[0]);
                     if (err) {
                         return done(err);
                     }
@@ -77,6 +73,8 @@ describe('Plog RestAPI Tests', function() {
     });
 
     describe('Testing DELETE function', function () {
+        before(cleardb);
+        
         it('POST /plog', function (done) {
             request
                 .post('/plog')
@@ -97,7 +95,7 @@ describe('Plog RestAPI Tests', function() {
                 .get('/plog/' + testData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
-                    res.body.should.include(testData[0]);
+                    res.body.should.eql(testData[0]);
                     if (err) {
                         return done(err);
                     }
