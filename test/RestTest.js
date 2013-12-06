@@ -13,14 +13,24 @@ request = request('http://localhost:' + config.port);
 var test;
 
 function cleardb(done) {
-    mongoose.connect(config.mongouri, function() {
-        mongoose.connection.db.dropDatabase(function() {
-            done();
-            mongoose.disconnect();
-        });
+    mongoose.connection.db.dropDatabase(function() {
+        done();
     });
 }
 
+before(function(done) {
+    if (mongoose.connection.db) {
+        return done();
+    }
+    mongoose.connect(config.mongouri, function() {
+        done();
+    });
+});
+
+after(function(done) {
+    mongoose.disconnect();
+    done();
+});
 
 describe('Plog RestAPI Tests Positive flow', function() {
     describe('Testing GET function for empty DB', function () {
@@ -118,9 +128,25 @@ describe('Plog RestAPI Tests Positive flow', function() {
         it('GET /plog', function (done) {
             request
                 .get('/plog/' + testData[0]._id)
-                .expect(200)
+                .expect(404)
                 .end(function(err, res) {
-                    test = res.body.should.be.empty;
+                    res.body.should.eql({'error': 'Object doesn\'t exist'});
+                    return done(err);
+                });
+        });
+    });
+});
+
+describe('Plog RestAPI Tests Negative flow', function() {
+    describe('GET /plog/:id', function () {
+        before(cleardb);
+
+        it('GET /plog/:id', function (done) {
+            request
+                .get('/plog/52892747ad2582d024000004')
+                .expect(404)
+                .end(function(err, res) {
+                    res.body.should.eql({'error': 'Object doesn\'t exist'});
                     return done(err);
                 });
         });
