@@ -22,7 +22,7 @@ function cleardb(done) {
 }
 
 
-describe('Plog RestAPI Tests', function() {
+describe('Plog RestAPI Tests Positive flow', function() {
     describe('Testing GET function for empty DB', function () {
         before(cleardb);
 
@@ -74,7 +74,7 @@ describe('Plog RestAPI Tests', function() {
 
     describe('Testing DELETE function', function () {
         before(cleardb);
-        
+
         it('POST /plog', function (done) {
             request
                 .post('/plog')
