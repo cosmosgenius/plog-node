@@ -7,25 +7,17 @@ var request     = require('supertest'),
     should      = require('should'),
     mongoose    = require('mongoose'),
     config      = require('../instance/config'),
-    testData    = require('./testData');
+    testData    = require('./testData'),
+    Log         = require('../models').Log;
 
 request = request('http://localhost:' + config.port);
 var test;
 
 function cleardb(done) {
-    mongoose.connection.db.dropDatabase(function() {
+    Log.remove(function() {
         done();
     });
 }
-
-before(function(done) {
-    if (mongoose.connection.db) {
-        return done();
-    }
-    mongoose.connect(config.mongouri, function() {
-        done();
-    });
-});
 
 after(function(done) {
     mongoose.disconnect();
