@@ -171,5 +171,29 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
+        it('POST /plog with empty body', function (done) {
+            request
+                .post('/plog')
+                .set('Content-Type', 'application/json')
+                .send()
+                .expect(400)
+                .end(function(err, res) {
+                    res.body.should.eql({error: 'Request cannot be empty'});
+                    return done(err);
+                });
+        });
+
+        it('POST /plog with Invalid request', function (done) {
+            request
+                .post('/plog')
+                .set('Content-Type', 'application/json')
+                .send({p: 'p'})
+                .expect(400)
+                .end(function(err, res) {
+                    res.body.should.eql({error: 'Invalid POST request.'});
+                    return done(err);
+                });
+        });
+
     });
 });
