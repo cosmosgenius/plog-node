@@ -10,7 +10,8 @@ module.exports = function(grunt) {
             },
             dev: {
                 options: {
-                    script: 'index.js'
+                    script: 'index.js',
+                    debug: true
                 }
             },
             prod: {
