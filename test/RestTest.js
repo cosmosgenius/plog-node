@@ -194,6 +194,19 @@ describe('Plog RestAPI Tests Negative flow', function() {
                     return done(err);
                 });
         });
+    });
 
+    describe('DELETE negative flow', function () {
+        before(cleardb);
+
+        it('DELETE /plog/:id', function (done) {
+            request
+                .get('/plog/52892747ad2582d024000004')
+                .expect(404)
+                .end(function(err, res) {
+                    res.body.should.eql({'error': 'Object doesn\'t exist'});
+                    return done(err);
+                });
+        });
     });
 });
