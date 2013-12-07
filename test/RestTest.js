@@ -130,7 +130,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
 });
 
 describe('Plog RestAPI Tests Negative flow', function() {
-    describe('GET /plog/:id', function () {
+    describe('GET negative flow', function () {
         before(cleardb);
 
         it('GET /plog/:id', function (done) {
@@ -142,5 +142,34 @@ describe('Plog RestAPI Tests Negative flow', function() {
                     return done(err);
                 });
         });
+    });
+
+    describe('POST negative flows', function () {
+        before(cleardb);
+
+        it('POST /plog with request type text/html', function (done) {
+            request
+                .post('/plog')
+                .set('Content-Type', 'text/html')
+                .send('test')
+                .expect(400)
+                .end(function(err, res) {
+                    res.body.should.eql({error: 'Type should be json'});
+                    return done(err);
+                });
+        });
+
+        it('POST /plog with request type application/x-www-form-urlencoded', function (done) {
+            request
+                .post('/plog')
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .send(testData[0])
+                .expect(400)
+                .end(function(err, res) {
+                    res.body.should.eql({error: 'Type should be json'});
+                    return done(err);
+                });
+        });
+
     });
 });
