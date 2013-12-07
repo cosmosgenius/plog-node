@@ -67,13 +67,15 @@ app.post('/plog', function(req, res) {
     try {
         JSONobj = JSON.parse(req.rawBody);
     } catch (e) {
-        return res.json(400, {error: e.message});
+        //console.log(e.message);
+        return res.json(400, {error: 'Invalid POST request.'});
     }
 
     newlog  = new Log(JSONobj);
     newlog.save(function(err, log) {
         if (err) {
-            return res.json(err);
+            //console.log(err);
+            return res.json(400, {error: 'Invalid POST request.'});
         }
         return res.json(201, log);
     });
