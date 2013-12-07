@@ -16,6 +16,7 @@ app.configure('production', function() {
 });
 
 app.configure('development', function() {
+    mongoose.set('debug', true);
     app.use(express.logger('dev'));
     app.use(express.responseTime());
 });
