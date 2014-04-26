@@ -56,6 +56,8 @@ logRouter.post('/plog', function(req, res) {
         return res.json(400, {error: 'Invalid POST request.'});
     }
 
+    delete JSONobj._id;
+
     newlog  = new Log(JSONobj);
     newlog.save(function(err, log) {
         if (err) {
