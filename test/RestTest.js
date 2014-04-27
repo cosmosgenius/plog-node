@@ -8,10 +8,10 @@ var request     = require('supertest'),
     mongoose    = require('mongoose'),
     config      = require('../instance/config'),
     testData    = require('./testData'),
-    Log         = require('../models').Log;
+    Log         = require('../app/models').Log;
 
 request = request('http://localhost:' + config.port);
-var test;
+var responseData = [];
 
 function cleardb(done) {
     Log.remove(function() {
@@ -33,7 +33,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 .get('/plog')
                 .expect(200)
                 .end(function(err, res) {
-                    test = res.body.should.be.empty;
+                    res.body.should.be.empty;
                     if (err) {
                         return done(err);
                     }
@@ -56,16 +56,16 @@ describe('Plog RestAPI Tests Positive flow', function() {
                         return done(err);
                     }
                     done();
-                    testData[0] = res.body;
+                    responseData[0] = res.body;
                 });
         });
 
         it('GET /plog', function (done) {
             request
-                .get('/plog/' + testData[0]._id)
+                .get('/plog/' + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
-                    res.body.should.eql(testData[0]);
+                    res.body.should.eql(responseData[0]);
                     if (err) {
                         return done(err);
                     }
@@ -88,16 +88,16 @@ describe('Plog RestAPI Tests Positive flow', function() {
                         return done(err);
                     }
                     done();
-                    testData[0] = res.body;
+                    responseData[0] = res.body;
                 });
         });
 
         it('GET /plog', function (done) {
             request
-                .get('/plog/' + testData[0]._id)
+                .get('/plog/' + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
-                    res.body.should.eql(testData[0]);
+                    res.body.should.eql(responseData[0]);
                     if (err) {
                         return done(err);
                     }
@@ -107,7 +107,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
 
         it('DELETE /plog', function (done) {
             request
-                .del('/plog/' + testData[0]._id)
+                .del('/plog/' + responseData[0]._id)
                 .expect(204)
                 .end(function(err, res) {
                     if (err) {
@@ -119,7 +119,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
 
         it('GET /plog', function (done) {
             request
-                .get('/plog/' + testData[0]._id)
+                .get('/plog/' + responseData[0]._id)
                 .expect(404)
                 .end(function(err, res) {
                     res.body.should.eql({'error': 'Object doesn\'t exist'});
