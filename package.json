@@ -9,7 +9,6 @@
   "dependencies": {
     "express": "4.x",
     "mongoose": "3.x",
-    "morgan": "1.x",
     "response-time": "1.x",
     "winston": "x"
   },
