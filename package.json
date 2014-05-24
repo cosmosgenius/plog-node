@@ -8,18 +8,19 @@
   },
   "dependencies": {
     "express": "4.x",
-    "mongoose": "3.8.x",
-    "morgan": "~1.0.0",
-    "response-time": "~1.0.0"
+    "mongoose": "3.x",
+    "morgan": "1.x",
+    "response-time": "1.x",
+    "winston": "x"
   },
   "devDependencies": {
-    "grunt": "~0.4.x",
-    "grunt-contrib-watch": "~0.5.x",
-    "grunt-express-server": "~0.4.x",
-    "supertest": "~0.8.x",
-    "should": "~2.1.x",
-    "mocha": "~1.14.x",
-    "grunt-mocha-test": "~0.7.x"
+    "grunt": "x",
+    "grunt-contrib-watch": "x",
+    "grunt-express-server": "x",
+    "supertest": "x",
+    "should": "x",
+    "mocha": "x",
+    "grunt-mocha-test": "x"
   },
   "scripts": {
     "test": "grunt test"
