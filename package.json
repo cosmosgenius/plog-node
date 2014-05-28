@@ -13,13 +13,13 @@
     "response-time": "1.x"
   },
   "devDependencies": {
-    "grunt": "x",
-    "grunt-contrib-watch": "x",
-    "grunt-express-server": "x",
-    "supertest": "x",
-    "should": "x",
-    "mocha": "x",
-    "grunt-mocha-test": "x"
+    "grunt": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-express-server": "*",
+    "supertest": "*",
+    "should": "*",
+    "mocha": "*",
+    "grunt-mocha-test": "*"
   },
   "scripts": {
     "test": "grunt test"
