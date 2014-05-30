@@ -51,7 +51,8 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
-                    res.body.should.include(testData[0]);
+                    res.body.should.have.properties(testData[0]);
+
                     if (err) {
                         return done(err);
                     }
@@ -83,7 +84,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
-                    res.body.should.include(testData[0]);
+                    res.body.should.have.properties(testData[0]);
                     if (err) {
                         return done(err);
                     }
