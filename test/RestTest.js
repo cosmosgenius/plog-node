@@ -1,10 +1,10 @@
 /*jslint node: true */
 /*jslint nomen: true*/
-/*global describe, it, before, beforeEach, after, afterEach */
+/*jshint expr: true*/
+/*global describe, it, before, after */
 'use strict';
 
 var request     = require('supertest'),
-    should      = require('should'),
     mongoose    = require('mongoose'),
     config      = require('../instance/config'),
     testData    = require('./testData'),
@@ -109,7 +109,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
             request
                 .del('/plog/' + responseData[0]._id)
                 .expect(204)
-                .end(function(err, res) {
+                .end(function(err) {
                     if (err) {
                         return done(err);
                     }
