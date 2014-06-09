@@ -6,7 +6,7 @@
 
 var request     = require('supertest'),
     mongoose    = require('mongoose'),
-    config      = require('../instance/config'),
+    config      = require('config'),
     testData    = require('./testData'),
     Log         = require('../app/models').Log;
 

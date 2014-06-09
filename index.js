@@ -4,7 +4,7 @@ var mongoose    =   require('mongoose'),
     http        =   require('http');
 
 
-var config      =   require('./instance/config'),
+var config      =   require('config'),
     app         =   require('./app'),
     server      =   http.createServer(app);
 
