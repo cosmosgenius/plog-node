@@ -64,6 +64,7 @@ logRouter.post('/plog', function(req, res) {
             //console.log(err);
             return res.json(400, {error: 'Invalid POST request.'});
         }
+        res.location(log._id);
         return res.json(201, log);
     });
 });
