@@ -20,6 +20,6 @@ if('development' === env) {
     app.use(responseTime());
 }
 
-app.use('/',logRouter);
+app.use('/plog',logRouter);
 
 module.exports = app;
