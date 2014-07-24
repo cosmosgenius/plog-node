@@ -28,9 +28,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
     describe('Testing GET function for empty DB', function () {
         before(cleardb);
 
-        it('GET /plog', function (done) {
+        it('GET /', function (done) {
             request
-                .get('/plog')
+                .get('/')
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.be.empty;
@@ -45,9 +45,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
     describe('Testing POST function', function () {
         before(cleardb);
 
-        it('POST /plog', function (done) {
+        it('POST /', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
@@ -61,9 +61,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /plog', function (done) {
+        it('GET /:id', function (done) {
             request
-                .get('/plog/' + responseData[0]._id)
+                .get('/' + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -78,9 +78,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
     describe('Testing DELETE function', function () {
         before(cleardb);
 
-        it('POST /plog', function (done) {
+        it('POST /', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
@@ -93,9 +93,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /plog', function (done) {
+        it('GET /:id', function (done) {
             request
-                .get('/plog/' + responseData[0]._id)
+                .get('/' + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -106,9 +106,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('DELETE /plog', function (done) {
+        it('DELETE /:id', function (done) {
             request
-                .del('/plog/' + responseData[0]._id)
+                .del('/' + responseData[0]._id)
                 .expect(204)
                 .end(function(err) {
                     if (err) {
@@ -118,9 +118,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /plog', function (done) {
+        it('GET /:id', function (done) {
             request
-                .get('/plog/' + responseData[0]._id)
+                .get('/' + responseData[0]._id)
                 .expect(404)
                 .end(function(err, res) {
                     res.body.should.eql({'error': 'Object doesn\'t exist'});
@@ -134,9 +134,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
     describe('GET negative flow', function () {
         before(cleardb);
 
-        it('GET /plog/:id', function (done) {
+        it('GET /', function (done) {
             request
-                .get('/plog/52892747ad2582d024000004')
+                .get('/52892747ad2582d024000004')
                 .expect(404)
                 .end(function(err, res) {
                     res.body.should.eql({'error': 'Object doesn\'t exist'});
@@ -148,9 +148,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
     describe('POST negative flows', function () {
         before(cleardb);
 
-        it('POST /plog with request type text/html', function (done) {
+        it('POST / with request type text/html', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .set('Content-Type', 'text/html')
                 .send('test')
                 .expect(400)
@@ -160,9 +160,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
-        it('POST /plog with request type application/x-www-form-urlencoded', function (done) {
+        it('POST / with request type application/x-www-form-urlencoded', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .set('Content-Type', 'application/x-www-form-urlencoded')
                 .send(testData[0])
                 .expect(400)
@@ -172,9 +172,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
-        it('POST /plog with empty body', function (done) {
+        it('POST / with empty body', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .set('Content-Type', 'application/json')
                 .send()
                 .expect(400)
@@ -184,9 +184,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
-        it('POST /plog with Invalid request', function (done) {
+        it('POST / with Invalid request', function (done) {
             request
-                .post('/plog')
+                .post('/')
                 .set('Content-Type', 'application/json')
                 .send({p: 'p'})
                 .expect(400)
@@ -200,9 +200,9 @@ describe('Plog RestAPI Tests Negative flow', function() {
     describe('DELETE negative flow', function () {
         before(cleardb);
 
-        it('DELETE /plog/:id', function (done) {
+        it('DELETE /:id', function (done) {
             request
-                .get('/plog/52892747ad2582d024000004')
+                .get('/52892747ad2582d024000004')
                 .expect(404)
                 .end(function(err, res) {
                     res.body.should.eql({'error': 'Object doesn\'t exist'});
