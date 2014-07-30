@@ -5,7 +5,7 @@ var express         = require('express'),
     mongoose        = require('mongoose'),
     logger          = require('morgan'),
     responseTime    = require('response-time'),
-    logRouter       = require('./routes').logRouter;
+    logRouter       = require('./routes/log');
 
 var app             = express(),
     env             = process.env.NODE_ENV || 'development';
