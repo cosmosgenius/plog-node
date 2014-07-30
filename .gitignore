@@ -13,4 +13,6 @@ results
 
 npm-debug.log
 node_modules
-config.js
+
+#to prevent production server configs to be added
+config/production.*
