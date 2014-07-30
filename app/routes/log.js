@@ -1,7 +1,8 @@
 'use strict';
 
 var express = require('express'),
-    Log = require('../models').Log;
+    db = require('../models'),
+    Log = db.Log;
 
 var logRouter = express.Router();
 
