@@ -1,6 +1,6 @@
 {
   "name": "plog-node",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Personal Logger",
   "main": "index.js",
   "directories": {
@@ -14,7 +14,7 @@
     "response-time": "1.x"
   },
   "devDependencies": {
-    "blanket": "^1.1.6",
+    "blanket": "*",
     "grunt": "*",
     "grunt-contrib-watch": "*",
     "grunt-express-server": "*",
