@@ -6,11 +6,11 @@
 
 var request     = require('supertest'),
     mongoose    = require('mongoose'),
-    config      = require('config'),
     testData    = require('./testData'),
-    Log         = require('../app/models').Log;
+    Log         = require('../app/models').Log,
+    app         = require('../app');
 
-request = request('http://localhost:' + config.port);
+request = request(app);
 var responseData = [];
 
 function cleardb(done) {
