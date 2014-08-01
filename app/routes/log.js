@@ -31,13 +31,13 @@ logRouter.route('/')
         var newlog,
             JSONobj;
         if (!req.is('json')) {
-            return res.json(400, {
+            return res.status(400).json({
                 error: 'Type should be json'
             });
         }
 
         if (!req.rawBody) {
-            return res.json(400, {
+            return res.status(400).json({
                 error: 'Request cannot be empty'
             });
         }
@@ -46,7 +46,7 @@ logRouter.route('/')
             JSONobj = JSON.parse(req.rawBody);
         } catch (e) {
             //console.log(e.message);
-            return res.json(400, {
+            return res.status(400).json({
                 error: 'Invalid POST request.'
             });
         }
@@ -57,12 +57,12 @@ logRouter.route('/')
         newlog.save(function(err, log) {
             if (err) {
                 //console.log(err);
-                return res.json(400, {
+                return res.status(400).json({
                     error: 'Invalid POST request.'
                 });
             }
             res.location(log._id);
-            return res.json(201, log);
+            return res.status(201).json(log);
         });
     });
 
@@ -75,7 +75,7 @@ logRouter.route('/:id')
             if (err) {
                 return res.json(err);
             }
-            return res.json(404, {
+            return res.status(404).json({
                 error: 'Object doesn\'t exist'
             });
         });
@@ -87,7 +87,7 @@ logRouter.route('/:id')
                     if (err) {
                         res.json(err);
                     }
-                    return res.send(204);
+                    return res.status(204).end();
                 });
             }
 
@@ -95,7 +95,7 @@ logRouter.route('/:id')
                 if (err) {
                     return res.json(err);
                 }
-                return res.json(404, {
+                return res.status(404).json({
                     error: 'Object doesn\'t exist'
                 });
             }
