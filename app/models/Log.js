@@ -1,8 +1,12 @@
 /*jslint node: true */
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    Types = mongoose.Schema.Types;
 
 var logSchema = new mongoose.Schema({
-    plog: { type: String, required: true }
+    log: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Log', logSchema);
