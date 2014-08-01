@@ -14,16 +14,23 @@
     "response-time": "1.x"
   },
   "devDependencies": {
+    "blanket": "^1.1.6",
     "grunt": "*",
     "grunt-contrib-watch": "*",
     "grunt-express-server": "*",
-    "supertest": "*",
-    "should": "*",
+    "grunt-mocha-test": "*",
     "mocha": "*",
-    "grunt-mocha-test": "*"
+    "should": "*",
+    "supertest": "*",
+    "travis-cov": "*"
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "config": {
+    "travis-cov": {
+      "threshold": 100
+    }
   },
   "repository": {
     "type": "git",
