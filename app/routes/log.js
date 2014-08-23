@@ -1,22 +1,13 @@
 'use strict';
 
 var express = require('express'),
+    rawBody = require('simple-rawbody'),
     db = require('../models'),
     Log = db.Log;
 
 var logRouter = express.Router();
 
-logRouter.use(function(req, res, next) {
-    var data = '';
-    req.setEncoding('utf8');
-    req.on('data', function(chunk) {
-        data += chunk;
-    });
-    req.on('end', function() {
-        req.rawBody = data;
-        next();
-    });
-});
+logRouter.use(rawBody());
 
 logRouter.route('/')
     .get(function(req, res) {
