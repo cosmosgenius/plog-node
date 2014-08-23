@@ -1,13 +1,13 @@
 'use strict';
 
 var express = require('express'),
-    rawBody = require('simple-rawbody'),
+    bodyparser = require('simple-bodyparser'),
     db = require('../models'),
     Log = db.Log;
 
 var logRouter = express.Router();
 
-logRouter.use(rawBody());
+logRouter.use(bodyparser());
 
 logRouter.route('/')
     .get(function(req, res) {
@@ -27,14 +27,14 @@ logRouter.route('/')
             });
         }
 
-        if (!req.rawBody) {
+        if (!req.body) {
             return res.status(400).json({
                 error: 'Request cannot be empty'
             });
         }
 
         try {
-            JSONobj = JSON.parse(req.rawBody);
+            JSONobj = JSON.parse(req.body);
         } catch (e) {
             //console.log(e.message);
             return res.status(400).json({
