@@ -31,7 +31,7 @@
   },
   "config": {
     "travis-cov": {
-      "threshold": 80
+      "threshold": 82
     }
   },
   "repository": {
