@@ -21,6 +21,7 @@
     "grunt-express-server": "*",
     "grunt-mocha-test": "*",
     "mocha": "*",
+    "mocha-lcov-reporter": "*",
     "should": "*",
     "supertest": "*",
     "travis-cov": "*"
