@@ -12,9 +12,6 @@ logRouter.use(bodyparser());
 logRouter.route('/')
     .get(function(req, res) {
         return Log.find(function(err, logs) {
-            if (err) {
-                return res.json(err);
-            }
             return res.json(logs);
         });
     })
@@ -63,9 +60,6 @@ logRouter.route('/:id')
             if (log) {
                 return res.json(log);
             }
-            if (err) {
-                return res.json(err);
-            }
             return res.status(404).json({
                 error: 'Object doesn\'t exist'
             });
@@ -74,18 +68,11 @@ logRouter.route('/:id')
     .delete(function(req, res) {
         return Log.findById(req.params.id, function(err, log) {
             if (log) {
-                return log.remove(function(err) {
-                    if (err) {
-                        res.json(err);
-                    }
+                return log.remove(function() {
                     return res.status(204).end();
                 });
             }
-
             if (!log) {
-                if (err) {
-                    return res.json(err);
-                }
                 return res.status(404).json({
                     error: 'Object doesn\'t exist'
                 });

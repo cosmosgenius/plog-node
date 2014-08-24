@@ -184,6 +184,18 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
+        it('POST / with Invalid json request', function (done) {
+            request
+                .post('/')
+                .set('Content-Type', 'application/json')
+                .send("{p: 'p'}")
+                .expect(400)
+                .end(function(err, res) {
+                    res.body.should.eql({error: 'Invalid POST request.'});
+                    return done(err);
+                });
+        });
+
         it('POST / with Invalid request', function (done) {
             request
                 .post('/')
@@ -202,7 +214,7 @@ describe('Plog RestAPI Tests Negative flow', function() {
 
         it('DELETE /:id', function (done) {
             request
-                .get('/52892747ad2582d024000004')
+                .delete('/52892747ad2582d024000004')
                 .expect(404)
                 .end(function(err, res) {
                     res.body.should.eql({'error': 'Object doesn\'t exist'});
