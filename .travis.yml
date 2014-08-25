@@ -1,9 +1,13 @@
 language: node_js
 node_js:
-    - "0.10"
-    - "0.11"
+- '0.10'
+- '0.11'
 before_install: npm install -g grunt-cli
 install: npm install
 services:
-    - mongodb
-after_script: "npm install coveralls && cat ./lcov.info | coveralls"
+- mongodb
+exec:
+  secure: IUM9XvSLxBc0/XNsM3m9wjZfFpAXz//nsuxIvpi7zEauCTToCr5MFD8w0L3KAYdWu2VSAovKez5nW5xJQeomcGeCw5A+6wD1/OMi/46Re0Dq4nYR/TQSx/IIPPAbKM+G2xx68ojxUqcbHL6fN9aA0AKgOc7v62r/vFA6FZQNNCo=
+after_script: npm install coveralls && cat ./lcov.info | coveralls
+after_success:
+  - exec
