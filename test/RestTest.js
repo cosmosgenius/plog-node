@@ -6,6 +6,7 @@
 
 var request     = require('supertest'),
     mongoose    = require('mongoose'),
+    should      = require('should'),
     testData    = require('./testData'),
     Log         = require('../app/models').Log,
     app         = require('../app');
@@ -123,7 +124,7 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 .get('/' + responseData[0]._id)
                 .expect(404)
                 .end(function(err, res) {
-                    res.body.should.eql({'error': 'Object doesn\'t exist'});
+                    should.exist(res.body.message);
                     return done(err);
                 });
         });
@@ -139,7 +140,7 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 .get('/52892747ad2582d024000004')
                 .expect(404)
                 .end(function(err, res) {
-                    res.body.should.eql({'error': 'Object doesn\'t exist'});
+                     should.exist(res.body.message);
                     return done(err);
                 });
         });
@@ -148,30 +149,6 @@ describe('Plog RestAPI Tests Negative flow', function() {
     describe('POST negative flows', function () {
         before(cleardb);
 
-        it('POST / with request type text/html', function (done) {
-            request
-                .post('/')
-                .set('Content-Type', 'text/html')
-                .send('test')
-                .expect(400)
-                .end(function(err, res) {
-                    res.body.should.eql({error: 'Type should be json'});
-                    return done(err);
-                });
-        });
-
-        it('POST / with request type application/x-www-form-urlencoded', function (done) {
-            request
-                .post('/')
-                .set('Content-Type', 'application/x-www-form-urlencoded')
-                .send(testData[0])
-                .expect(400)
-                .end(function(err, res) {
-                    res.body.should.eql({error: 'Type should be json'});
-                    return done(err);
-                });
-        });
-
         it('POST / with empty body', function (done) {
             request
                 .post('/')
@@ -179,19 +156,7 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 .send()
                 .expect(400)
                 .end(function(err, res) {
-                    res.body.should.eql({error: 'Request cannot be empty'});
-                    return done(err);
-                });
-        });
-
-        it('POST / with Invalid json request', function (done) {
-            request
-                .post('/')
-                .set('Content-Type', 'application/json')
-                .send("{p: 'p'}")
-                .expect(400)
-                .end(function(err, res) {
-                    res.body.should.eql({error: 'Invalid POST request.'});
+                    should.exist(res.body.message);
                     return done(err);
                 });
         });
@@ -203,7 +168,7 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 .send({p: 'p'})
                 .expect(400)
                 .end(function(err, res) {
-                    res.body.should.eql({error: 'Invalid POST request.'});
+                    should.exist(res.body.message);
                     return done(err);
                 });
         });
@@ -217,7 +182,7 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 .delete('/52892747ad2582d024000004')
                 .expect(404)
                 .end(function(err, res) {
-                    res.body.should.eql({'error': 'Object doesn\'t exist'});
+                    should.exist(res.body.message);
                     return done(err);
                 });
         });
