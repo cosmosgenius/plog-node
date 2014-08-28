@@ -15,7 +15,10 @@ logRouter.route('/')
         });
     })
     .post(bodyparser())
-    .post(jsonparser({strict: true}))
+    .post(jsonparser({
+        strict: true,
+        bodyCheck : true
+    }))
     .post(function(req, res) {
         var newlog,
             JSONobj;
