@@ -2,12 +2,11 @@
 
 var express = require('express'),
     bodyparser = require('simple-bodyparser'),
+    jsonparser = require('jsonparser'),
     db = require('../models'),
     Log = db.Log;
 
 var logRouter = express.Router();
-
-logRouter.use(bodyparser());
 
 logRouter.route('/')
     .get(function(req, res) {
@@ -15,30 +14,14 @@ logRouter.route('/')
             return res.json(logs);
         });
     })
+    .post(bodyparser())
+    .post(jsonparser({strict: true}))
     .post(function(req, res) {
         var newlog,
             JSONobj;
-        if (!req.is('json')) {
-            return res.status(400).json({
-                error: 'Type should be json'
-            });
-        }
 
-        if (!req.body) {
-            return res.status(400).json({
-                error: 'Request cannot be empty'
-            });
-        }
-
-        try {
-            JSONobj = JSON.parse(req.body);
-        } catch (e) {
-            //console.log(e.message);
-            return res.status(400).json({
-                error: 'Invalid POST request.'
-            });
-        }
-
+        JSONobj = req.json;
+       
         delete JSONobj._id;
 
         newlog = new Log(JSONobj);
@@ -46,12 +29,20 @@ logRouter.route('/')
             if (err) {
                 //console.log(err);
                 return res.status(400).json({
-                    error: 'Invalid POST request.'
+                    message: 'Invalid POST request.'
                 });
             }
             res.location(log._id);
             return res.status(201).json(log);
         });
+    })
+    .all(function(err, req, res, next){
+        if(err){
+            res.status(err.status).json({
+                message:err.message
+            });
+        }
+        next();
     });
 
 logRouter.route('/:id')
@@ -61,7 +52,7 @@ logRouter.route('/:id')
                 return res.json(log);
             }
             return res.status(404).json({
-                error: 'Object doesn\'t exist'
+                message: 'Object doesn\'t exist'
             });
         });
     })
@@ -74,7 +65,7 @@ logRouter.route('/:id')
             }
             if (!log) {
                 return res.status(404).json({
-                    error: 'Object doesn\'t exist'
+                    message: 'Object doesn\'t exist'
                 });
             }
         });
