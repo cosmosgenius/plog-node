@@ -2,14 +2,14 @@
 /*jslint nomen: true*/
 /*jshint expr: true*/
 /*global describe, it, before, after */
-'use strict';
+"use strict";
 
-var request     = require('supertest'),
-    mongoose    = require('mongoose'),
-    should      = require('should'),
-    testData    = require('./testData'),
-    Log         = require('../app/models').Log,
-    app         = require('../app');
+var request     = require("supertest"),
+    mongoose    = require("mongoose"),
+    should      = require("should"),
+    testData    = require("./testData"),
+    Log         = require("../app/models").Log,
+    app         = require("../app");
 
 request = request(app);
 var responseData = [];
@@ -25,13 +25,13 @@ after(function(done) {
     done();
 });
 
-describe('Plog RestAPI Tests Positive flow', function() {
-    describe('Testing GET function for empty DB', function () {
+describe("Plog RestAPI Tests Positive flow", function() {
+    describe("Testing GET function for empty DB", function () {
         before(cleardb);
 
-        it('GET /', function (done) {
+        it("GET /", function (done) {
             request
-                .get('/')
+                .get("/")
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.be.empty;
@@ -43,12 +43,12 @@ describe('Plog RestAPI Tests Positive flow', function() {
         });
     });
 
-    describe('Testing POST function', function () {
+    describe("Testing POST function", function () {
         before(cleardb);
 
-        it('POST /', function (done) {
+        it("POST /", function (done) {
             request
-                .post('/')
+                .post("/")
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
@@ -62,9 +62,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /:id', function (done) {
+        it("GET /:id", function (done) {
             request
-                .get('/' + responseData[0]._id)
+                .get("/" + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -76,12 +76,12 @@ describe('Plog RestAPI Tests Positive flow', function() {
         });
     });
 
-    describe('Testing DELETE function', function () {
+    describe("Testing DELETE function", function () {
         before(cleardb);
 
-        it('POST /', function (done) {
+        it("POST /", function (done) {
             request
-                .post('/')
+                .post("/")
                 .send(testData[0])
                 .expect(201)
                 .end(function(err, res) {
@@ -94,9 +94,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /:id', function (done) {
+        it("GET /:id", function (done) {
             request
-                .get('/' + responseData[0]._id)
+                .get("/" + responseData[0]._id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -107,9 +107,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('DELETE /:id', function (done) {
+        it("DELETE /:id", function (done) {
             request
-                .del('/' + responseData[0]._id)
+                .del("/" + responseData[0]._id)
                 .expect(204)
                 .end(function(err) {
                     if (err) {
@@ -119,9 +119,9 @@ describe('Plog RestAPI Tests Positive flow', function() {
                 });
         });
 
-        it('GET /:id', function (done) {
+        it("GET /:id", function (done) {
             request
-                .get('/' + responseData[0]._id)
+                .get("/" + responseData[0]._id)
                 .expect(404)
                 .end(function(err, res) {
                     should.exist(res.body.message);
@@ -131,13 +131,13 @@ describe('Plog RestAPI Tests Positive flow', function() {
     });
 });
 
-describe('Plog RestAPI Tests Negative flow', function() {
-    describe('GET negative flow', function () {
+describe("Plog RestAPI Tests Negative flow", function() {
+    describe("GET negative flow", function () {
         before(cleardb);
 
-        it('GET /', function (done) {
+        it("GET /", function (done) {
             request
-                .get('/52892747ad2582d024000004')
+                .get("/52892747ad2582d024000004")
                 .expect(404)
                 .end(function(err, res) {
                      should.exist(res.body.message);
@@ -146,13 +146,13 @@ describe('Plog RestAPI Tests Negative flow', function() {
         });
     });
 
-    describe('POST negative flows', function () {
+    describe("POST negative flows", function () {
         before(cleardb);
 
-        it('POST / with empty body', function (done) {
+        it("POST / with empty body", function (done) {
             request
-                .post('/')
-                .set('Content-Type', 'application/json')
+                .post("/")
+                .set("Content-Type", "application/json")
                 .send()
                 .expect(400)
                 .end(function(err, res) {
@@ -161,11 +161,11 @@ describe('Plog RestAPI Tests Negative flow', function() {
                 });
         });
 
-        it('POST / with Invalid request', function (done) {
+        it("POST / with Invalid request", function (done) {
             request
-                .post('/')
-                .set('Content-Type', 'application/json')
-                .send({p: 'p'})
+                .post("/")
+                .set("Content-Type", "application/json")
+                .send({p: "p"})
                 .expect(400)
                 .end(function(err, res) {
                     should.exist(res.body.message);
@@ -174,12 +174,12 @@ describe('Plog RestAPI Tests Negative flow', function() {
         });
     });
 
-    describe('DELETE negative flow', function () {
+    describe("DELETE negative flow", function () {
         before(cleardb);
 
-        it('DELETE /:id', function (done) {
+        it("DELETE /:id", function (done) {
             request
-                .delete('/52892747ad2582d024000004')
+                .delete("/52892747ad2582d024000004")
                 .expect(404)
                 .end(function(err, res) {
                     should.exist(res.body.message);

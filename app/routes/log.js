@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-var express = require('express'),
-    bodyparser = require('simple-bodyparser'),
-    jsonparser = require('jsonparser'),
-    db = require('../models'),
+var express = require("express"),
+    bodyparser = require("simple-bodyparser"),
+    jsonparser = require("jsonparser"),
+    db = require("../models"),
     Log = db.Log;
 
 var logRouter = express.Router();
 
-logRouter.route('/')
+logRouter.route("/")
     .get(function(req, res) {
         return Log.find(function(err, logs) {
             return res.json(logs);
@@ -32,7 +32,7 @@ logRouter.route('/')
             if (err) {
                 //console.log(err);
                 return res.status(400).json({
-                    message: 'Invalid POST request.'
+                    message: "Invalid POST request."
                 });
             }
             res.location(log._id);
@@ -48,14 +48,14 @@ logRouter.route('/')
         next();
     });
 
-logRouter.route('/:id')
+logRouter.route("/:id")
     .get(function(req, res) {
         return Log.findById(req.params.id, function(err, log) {
             if (log) {
                 return res.json(log);
             }
             return res.status(404).json({
-                message: 'Object doesn\'t exist'
+                message: "Object doesn't exist"
             });
         });
     })
@@ -68,7 +68,7 @@ logRouter.route('/:id')
             }
             if (!log) {
                 return res.status(404).json({
-                    message: 'Object doesn\'t exist'
+                    message: "Object doesn't exist"
                 });
             }
         });
