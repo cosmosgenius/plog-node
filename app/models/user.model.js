@@ -1,7 +1,6 @@
-/*jslint node: true */
-var mongoose = require('mongoose');
+"use strict";
 
-var userSchema = new mongoose.Schema({
+module.exports = {
     username: {
         type: String,
         required: true,
@@ -16,6 +15,4 @@ var userSchema = new mongoose.Schema({
     accessToken: {
         type: String
     }
-});
-
-module.exports = mongoose.model('User', userSchema);
+};

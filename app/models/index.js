@@ -1,8 +1,9 @@
-/*jslint node: true */
-var mongoose    = require('mongoose');
-var config      = require('config');
+"use strict";
 
-mongoose.connect(config.mongouri);
-module.exports = mongoose;
-module.exports.Log = require('./Log');
-module.exports.User = require('./User');
+var config      = require("config");
+var manager     = require("./mongoose.manager");
+
+manager.connect(config.mongouri);
+module.exports = manager;
+module.exports.Log = manager.createModel("Log",require("./log.model"));
+module.exports.User = manager.createModel("User",require("./user.model"));
