@@ -1,7 +1,7 @@
 "use strict";
 
 var config      = require("config");
-var manager     = require("./mongoose.manager");
+var manager     = require("./managers/mongoose.manager");
 
 manager.connect(config.mongouri);
 module.exports = manager;
