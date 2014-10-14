@@ -1,6 +1,7 @@
 "use strict";
+var mongoose = require("mongoose");
 
-module.exports = {
+var UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -23,4 +24,6 @@ module.exports = {
         type : Date,
         default : Date.now
     }
-};
+});
+
+mongoose.model("User", UserSchema);

@@ -1,6 +1,7 @@
 "use strict";
+var mongoose = require("mongoose");
 
-module.exports = {
+var LogSchema = new mongoose.Schema({
     log: {
         type: String,
         required: true
@@ -9,4 +10,6 @@ module.exports = {
         type : Date,
         default : Date.now
     }
-};
+});
+
+mongoose.model("Log", LogSchema);
