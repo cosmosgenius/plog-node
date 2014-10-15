@@ -1,11 +1,10 @@
 /*jslint node: true */
 /*jslint nomen: true*/
 /*jshint expr: true*/
-/*global describe, it, before, after */
+/*global describe, it, before */
 "use strict";
 
 var request     = require("supertest"),
-    mongoose    = require("mongoose"),
     should      = require("should"),
     testData    = require("./testData"),
     Log         = require("../app/models").Log,
@@ -19,11 +18,6 @@ function cleardb(done) {
         done();
     });
 }
-
-after(function(done) {
-    mongoose.disconnect();
-    done();
-});
 
 describe("Plog RestAPI Tests Positive flow", function() {
     describe("Testing GET function for empty DB", function () {
