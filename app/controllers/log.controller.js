@@ -1,6 +1,9 @@
 "use strict";
+var config = require("config");
 var Log = require("../models/log.model"),
     utils = require("../utils");
+
+var pageLimit = config.pageLimit;
 
 /**
  * Get the array of logs from db
@@ -11,7 +14,7 @@ var Log = require("../models/log.model"),
 exports.getLogs = function getLogs (limit, pageNo, cb) {
     if(typeof limit === "function") {
         cb = limit;
-        limit = 5;
+        limit = pageLimit;
     }
     
     pageNo = pageNo || 0;
@@ -50,7 +53,9 @@ exports.createNewLog = function createNewLog(log, cb) {
  */
 exports.deleteLog = function deleteLog(logid, cb) {
     Log.findById(logid, function (err, log) {
-
+        if(!log) {
+            return cb(utils.getErrorMessage(1404));
+        }
     });
 };
 
@@ -61,18 +66,14 @@ exports.deleteLog = function deleteLog(logid, cb) {
  */
 exports.getLog = function getLog(logid, cb) {
     Log.findById(logid, function (err, log) {
-        var ret;
-
-        if(log) {
-            ret = {
-                id: log._id,
-                log: log.log,
-                created_at: log.created_at
-            };
-        } else {
-            ret = utils.getErrorMessage(404);
+        if(!log) {
+            return cb(utils.getErrorMessage(1404));
         }
 
-        return cb(null,ret);
+        cb(null, {
+            id: log._id,
+            log: log.log,
+            created_at: log.created_at
+        });
     });
 };
