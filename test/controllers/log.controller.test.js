@@ -1,4 +1,4 @@
-/*global describe, it, before */
+/*global describe, it, before, beforeEach */
 "use strict";
 var config = require("config"),
     should = require("should");
@@ -24,10 +24,12 @@ describe("Log Controller", function() {
                 logController.createNewLog(testData[0],function(err, log){
                     log.should.have.properties(testData[0]);
                     log.should.have.property("created_at");
+                    log.should.have.property("id");
                     Log.find(function(err, logs){
                         logs.length.should.be.eql(1);
                         logs[0].should.have.properties(testData[0]);
                         logs[0].should.have.property("created_at");
+                        logs[0].should.have.property("id");
                         done();
                     });
                 });
@@ -45,8 +47,52 @@ describe("Log Controller", function() {
         });
     });
 
-    describe("getLogs function", function() {
+    describe("getLog function", function() {
         before(cleardb);
+        it("should get the log present at the id", function(done) {
+            logController.createNewLog(testData[0],function(err, log){
+                should.exist(log);
+
+                logController.getLog(log.id, function(err, innerlog){
+                    innerlog.log.should.be.eql(log.log);
+                    done(err);
+                });
+            });
+        });
+
+        it("should return error 1404 if id not present", function(done){
+            logController.getLog("52892747ad2582d024000004", function(err, log){
+                should.not.exist(log);
+                should.exist(err);
+                err.errorCode.should.be.eql(1404);
+                done();
+            });
+        });
+    });
+
+    describe("deleteLog function", function() {
+        var del_id;
+        before(cleardb);
+
+        it("should delete the log present at the id", function(done) {
+            logController.createNewLog(testData[0],function(err, log){
+                should.exist(log);
+                del_id = log.id;
+                logController.deleteLog(del_id, done);
+            });
+        });
+
+        it("should return error 1404 if id not present", function(done) {
+            logController.deleteLog(del_id, function(err) {
+                should.exist(err);
+                err.errorCode.should.be.eql(1404);
+                done();
+            });
+        });
+    });
+
+    describe("getLogs function", function() {
+        beforeEach(cleardb);
 
         it("should return zero logs", function(done) {
             logController.getLogs(function(err, logs){
@@ -56,7 +102,26 @@ describe("Log Controller", function() {
         });
 
         it("should return " + config.pageLimit + " logs", function(done){
-            done();
+            var j = 0;
+
+            function checkCount(){
+                j++;
+                if(j >= 10) {
+                    j = -9;
+                    getLogs();
+                }
+            }
+
+            for(var i = 0; i < 10 ; i++ ){              
+                logController.createNewLog(testData[i],checkCount);
+            }
+
+            function getLogs() {
+                logController.getLogs(function(err, logs){
+                    logs.length.should.be.eql(5);
+                    done(err);
+                });
+            }
         });
     });
 });
