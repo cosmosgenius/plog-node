@@ -5,6 +5,14 @@ var Log = require("../models/log.model"),
 
 var pageLimit = config.pageLimit;
 
+function sanatizeLog(log) {
+    return {
+        id : log._id,
+        log : log.log,
+        created_at: log.created_at
+    };
+}
+
 /**
  * Get the array of logs from db
  * @param  {number}   limit  The limit to apply when fetching from db (default: config.pageLimit)
@@ -24,7 +32,9 @@ exports.getLogs = function getLogs (limit, pageNo, cb) {
         .sort({created_at: -1})
         .skip(pageNo*limit)
         .limit(limit)
-        .exec(cb);
+        .exec(function(err, logs){
+            cb(err, logs.map(sanatizeLog));
+        });
 };
 
 /**
@@ -75,10 +85,6 @@ exports.getLog = function getLog(logid, cb) {
             return cb(utils.getErrorMessage(1404));
         }
 
-        cb(null, {
-            id: log._id,
-            log: log.log,
-            created_at: log.created_at
-        });
+        cb(null, sanatizeLog(log));
     });
 };

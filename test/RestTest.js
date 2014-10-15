@@ -58,7 +58,7 @@ describe("Plog RestAPI Tests Positive flow", function() {
 
         it("GET /:id", function (done) {
             request
-                .get("/" + responseData[0]._id)
+                .get("/" + responseData[0].id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -90,7 +90,7 @@ describe("Plog RestAPI Tests Positive flow", function() {
 
         it("GET /:id", function (done) {
             request
-                .get("/" + responseData[0]._id)
+                .get("/" + responseData[0].id)
                 .expect(200)
                 .end(function(err, res) {
                     res.body.should.eql(responseData[0]);
@@ -103,7 +103,7 @@ describe("Plog RestAPI Tests Positive flow", function() {
 
         it("DELETE /:id", function (done) {
             request
-                .del("/" + responseData[0]._id)
+                .del("/" + responseData[0].id)
                 .expect(204)
                 .end(function(err) {
                     if (err) {
@@ -115,7 +115,7 @@ describe("Plog RestAPI Tests Positive flow", function() {
 
         it("GET /:id", function (done) {
             request
-                .get("/" + responseData[0]._id)
+                .get("/" + responseData[0].id)
                 .expect(404)
                 .end(function(err, res) {
                     should.exist(res.body.message);
