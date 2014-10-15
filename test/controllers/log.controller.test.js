@@ -70,6 +70,27 @@ describe("Log Controller", function() {
         });
     });
 
+    describe("deleteLog function", function() {
+        var del_id;
+        before(cleardb);
+
+        it("should delete the log present at the id", function(done) {
+            logController.createNewLog(testData[0],function(err, log){
+                should.exist(log);
+                del_id = log.id;
+                logController.deleteLog(del_id, done);
+            });
+        });
+
+        it("should return error 1404 if id not present", function(done) {
+            logController.deleteLog(del_id, function(err) {
+                should.exist(err);
+                err.errorCode.should.be.eql(1404);
+                done();
+            });
+        });
+    });
+
     describe("getLogs function", function() {
         before(cleardb);
 
@@ -80,8 +101,6 @@ describe("Log Controller", function() {
             });
         });
 
-        it("should return " + config.pageLimit + " logs", function(done){
-            done();
-        });
+        it("should return " + config.pageLimit + " logs");
     });
 });

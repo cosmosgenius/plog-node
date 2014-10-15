@@ -56,6 +56,10 @@ exports.deleteLog = function deleteLog(logid, cb) {
         if(!log) {
             return cb(utils.getErrorMessage(1404));
         }
+
+        log.remove(function(err) {
+            cb(err);
+        });
     });
 };
 
