@@ -1,4 +1,4 @@
-/*global describe, it, before */
+/*global describe, it, before, beforeEach */
 "use strict";
 var config = require("config"),
     should = require("should");
@@ -92,7 +92,7 @@ describe("Log Controller", function() {
     });
 
     describe("getLogs function", function() {
-        before(cleardb);
+        beforeEach(cleardb);
 
         it("should return zero logs", function(done) {
             logController.getLogs(function(err, logs){
@@ -101,6 +101,27 @@ describe("Log Controller", function() {
             });
         });
 
-        it("should return " + config.pageLimit + " logs");
+        it("should return " + config.pageLimit + " logs", function(done){
+            var j = 0;
+
+            function checkCount(){
+                j++;
+                if(j >= 10) {
+                    j = -9;
+                    getLogs();
+                }
+            }
+
+            for(var i = 0; i < 10 ; i++ ){              
+                logController.createNewLog(testData[i],checkCount);
+            }
+
+            function getLogs() {
+                logController.getLogs(function(err, logs){
+                    logs.length.should.be.eql(5);
+                    done(err);
+                });
+            }
+        });
     });
 });

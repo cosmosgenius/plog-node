@@ -21,6 +21,7 @@ exports.getLogs = function getLogs (limit, pageNo, cb) {
 
     Log
         .find()
+        .sort({created_at: -1})
         .skip(pageNo*limit)
         .limit(limit)
         .exec(cb);
