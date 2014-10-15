@@ -5,6 +5,11 @@ var Log = require("../models/log.model"),
 
 var pageLimit = config.pageLimit;
 
+/**
+ * Sanatizes the log object
+ * @param  {object} log db raw log object
+ * @return {object}     sanatized log object
+ */
 function sanatizeLog(log) {
     return {
         id : log._id,
