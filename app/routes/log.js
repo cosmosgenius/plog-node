@@ -2,15 +2,15 @@
 
 var express = require("express"),
     bodyparser = require("simple-bodyparser"),
-    jsonparser = require("jsonparser"),
-    db = require("../models"),
-    Log = db.Log;
+    jsonparser = require("jsonparser");
+
+var logController = require("../controllers/log.controller");
 
 var logRouter = express.Router();
 
 logRouter.route("/")
     .get(function(req, res) {
-        return Log.find(function(err, logs) {
+        return logController.getLogs(function(err, logs) {
             return res.json(logs);
         });
     })
@@ -20,24 +20,17 @@ logRouter.route("/")
         bodyCheck : true
     }))
     .post(function(req, res) {
-        var newlog,
-            JSONobj;
 
-        JSONobj = req.json;
-       
-        delete JSONobj._id;
-
-        newlog = new Log(JSONobj);
-        newlog.save(function(err, log) {
+        logController.createNewLog(req.json, function(err, log){
             if (err) {
-                //console.log(err);
                 return res.status(400).json({
                     message: "Invalid POST request."
                 });
             }
-            res.location(log._id);
+            res.location(log.id);
             return res.status(201).json(log);
         });
+
     })
     .all(function(err, req, res, next){
         if(err){
@@ -50,27 +43,24 @@ logRouter.route("/")
 
 logRouter.route("/:id")
     .get(function(req, res) {
-        return Log.findById(req.params.id, function(err, log) {
+        logController.getLog(req.params.id, function(err, log) {
             if (log) {
                 return res.json(log);
             }
-            return res.status(404).json({
-                message: "Object doesn't exist"
-            });
+            res
+                .status(err.status)
+                .json(err);
         });
     })
     .delete(function(req, res) {
-        return Log.findById(req.params.id, function(err, log) {
-            if (log) {
-                return log.remove(function() {
-                    return res.status(204).end();
-                });
+        logController.deleteLog(req.params.id, function(err) {
+            if(!err) {
+                 return res.status(204).end();
             }
-            if (!log) {
-                return res.status(404).json({
-                    message: "Object doesn't exist"
-                });
-            }
+
+            res
+                .status(err.status)
+                .json(err);
         });
     });
 

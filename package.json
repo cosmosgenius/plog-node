@@ -20,6 +20,7 @@
     "blanket": "*",
     "grunt": "*",
     "grunt-contrib-watch": "*",
+    "grunt-env": "*",
     "grunt-express-server": "*",
     "grunt-mocha-test": "*",
     "mocha": "*",
