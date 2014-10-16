@@ -6,7 +6,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         env : {
             dev : {
-                NODE_ENV : 'development'
+                NODE_ENV : 'development',
+                ACCESS_TOKEN: '5TVEDN34KSU1nsQEf8l5I4X0e981d749'
             },
             test : {
                 NODE_ENV : 'test'

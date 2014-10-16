@@ -2,7 +2,7 @@
 
 var express         = require("express"),
     cors            = require("cors"),   
-    logRouter       = require("./routes/log");
+    logRouter       = require("./routes/log.route");
 
 
 var app             = express();
