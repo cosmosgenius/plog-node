@@ -1,6 +1,6 @@
 "use strict";
 var config = require("config");
-var Log = require("../models/log.model"),
+var Log = require("../models").Log,
     utils = require("../utils");
 
 var pageLimit = config.pageLimit;
@@ -31,7 +31,6 @@ exports.getLogs = function getLogs (limit, pageNo, cb) {
     }
     
     pageNo = pageNo || 0;
-
     Log
         .find()
         .sort({created_at: -1})
