@@ -4,7 +4,7 @@
   "description": "Personal Logger",
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "dependencies": {
     "config": "*",
@@ -42,7 +42,7 @@
     "url": "git://github.com/cosmosgenius/plog-node.git"
   },
   "author": "Sharat M R",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cosmosgenius/plog-node/issues"
   }
