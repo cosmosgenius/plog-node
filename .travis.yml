@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-- '0.10'
-before_install: npm install -g grunt-cli
+    - '4.1.0'
+before_install: npm install -g gulp-cli
 install: npm install
 services:
-- mongodb
-after_script: npm install coveralls && cat ./lcov.info | coveralls
+    - mongodb
+after_script: npm install coveralls && cat ./coverage/lcov.info | coveralls
