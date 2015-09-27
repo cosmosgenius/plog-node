@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "bunyan": "^1.5.1",
     "express": "^4.13.3",
     "mongoose": "^4.1.8"
   },
