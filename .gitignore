@@ -1,3 +1,4 @@
+.env
 lib-cov
 *.seed
 *.log
@@ -14,8 +15,6 @@ results
 npm-debug.log
 node_modules
 
-#to prevent production server configs to be added
-config/production.*
 coverage/
 lcov.info
 
