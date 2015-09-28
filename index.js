@@ -25,6 +25,39 @@ if('production' === env) {
     }));
 }
 
+let db = mongoose.connection;
+let dboptions = {
+    server: {
+        socketOptions: {
+            keepAlive: 1,
+            autoReconnect: true
+        }
+    }
+};
+
+db.on('connecting', function() {
+    console.log('connecting to MongoDB...');
+});
+db.on('error', function(error) {
+    console.error('Error in MongoDb connection: ' + error);
+    mongoose.disconnect();
+});
+db.on('connected', function() {
+    console.log('MongoDB connected!');
+});
+db.once('open', function() {
+    console.log('MongoDB connection opened!');
+});
+db.on('reconnected', function () {
+    console.log('MongoDB reconnected!');
+});
+db.on('disconnected', function() {
+    console.log('MongoDB disconnected!');
+    db.close();
+    mongoose.connect(process.env.MONGODB, dboptions);
+});
+mongoose.connect(process.env.MONGODB, dboptions);
+
 server.listen(8000, (err) => {
     if (err) {
         console.log(err);
@@ -37,7 +70,7 @@ server.listen(8000, (err) => {
 });
 
 process.on('SIGINT', () => {
-    mongoose.connection.close(() => {
+    db.close(() => {
         console.log('Mongoose disconnected on app termination');
         process.exit(0);
     });
