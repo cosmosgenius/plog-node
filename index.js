@@ -18,8 +18,8 @@ if('dev' === env) {
 }
 
 if('production' === env) {
-    mongoose.set('debug', true);
-    app.use(morgan('dev'));
+    mongoose.set('debug', false);
+    app.use(morgan('combined'));
     app.use(responseTime({
         digits: 5
     }));
