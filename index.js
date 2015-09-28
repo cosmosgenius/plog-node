@@ -25,15 +25,19 @@ if('production' === env) {
     }));
 }
 
-server.listen(8000, function(err) {
+server.listen(8000, (err) => {
     if (err) {
         console.log(err);
     }
-    console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
+    console.log(
+        'Express server listening on port %d in %s mode',
+        server.address().port,
+        app.settings.env
+    );
 });
 
-process.on('SIGINT', function() {
-    mongoose.connection.close(function () {
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
         console.log('Mongoose disconnected on app termination');
         process.exit(0);
     });
