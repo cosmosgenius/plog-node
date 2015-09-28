@@ -1,6 +1,6 @@
 'use strict';
 
-require('./env')();
+require('./lib/env')();
 let http = require('http');
 let mongoose = require('mongoose');
 let morgan = require('morgan');
