@@ -2,10 +2,8 @@
 
 let express = require('express');
 let cors = require('cors');
-let responseTime = require('response-time');
-let app = express();
 
-app.use(responseTime());
+let app = express();
 app.use(cors());
 
 module.exports = app;
