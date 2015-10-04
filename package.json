@@ -26,7 +26,7 @@
     "istanbul": "^0.3.21"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "gulp serve | bunyan --color --output short",
     "test": "gulp test"
   },
   "config": {
