@@ -8,15 +8,6 @@ let istanbul = require('gulp-istanbul');
 let complexity = require('gulp-complexity');
 let gls = require('gulp-live-server');
 
-
-gulp.task('serve', () => {
-    let server = gls.new('index.js');
-    server.start();
-    gulp.watch(['apps/**/*.js', 'lib/**/*.js', 'index.js'], () => {
-        server.start();
-    });
-});
-
 gulp.task('pre-unit', () => {
   return gulp.src('apps/**/*.js')
     .pipe(istanbul({includeUntested: true}))
@@ -28,6 +19,18 @@ gulp.task('unit', ['pre-unit'] ,() => {
         .pipe(mocha())
         .pipe(istanbul.writeReports())
         .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
+});
+
+gulp.task('serve', () => {
+    let server = gls.new('index.js');
+    server.start();
+    gulp.watch(['apps/**/*.js', 'lib/**/*.js', 'index.js'], () => {
+        server.start();
+    });
+});
+
+gulp.task('watch-unit', ['unit'] , () => {
+    gulp.watch(['apps/**/*.js', 'test/**/*.js'], ['unit']);
 });
 
 gulp.task('test', ['unit']);
