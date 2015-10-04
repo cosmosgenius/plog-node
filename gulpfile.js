@@ -9,6 +9,14 @@ let complexity = require('gulp-complexity');
 let gls = require('gulp-live-server');
 
 
+gulp.task('serve', () => {
+    let server = gls.new('index.js');
+    server.start();
+    gulp.watch(['apps/**/*.js', 'lib/**/*.js', 'index.js'], () => {
+        server.start();
+    });
+});
+
 gulp.task('pre-unit', () => {
   return gulp.src('apps/**/*.js')
     .pipe(istanbul({includeUntested: true}))
