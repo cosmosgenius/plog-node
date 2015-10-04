@@ -9,7 +9,7 @@ let app = require('./apps');
 let server = http.createServer(app);
 let env = process.env.NODE_ENV || 'dev';
 
-if('dev' === env) {
+if('development' === env) {
     mongoose.set('debug', true);
     app.use(morgan('dev'));
     app.use(responseTime({
@@ -19,7 +19,20 @@ if('dev' === env) {
 
 if('production' === env) {
     mongoose.set('debug', false);
-    app.use(morgan('combined'));
+    let format = {
+        'remote_addr': ':remote-addr',
+        'remote_user': ':remote-user',
+        'time': ':date[iso]',
+        'method': ':method',
+        'url': ':url',
+        'http_version': ':http-version',
+        'status': ':status',
+        'result_length': ':res[content-length]',
+        'referrer': ':referrer',
+        'user_agent': ':user-agent',
+        'response_time': ':response-time',
+    };
+    app.use(morgan(JSON.stringify(format)));
     app.use(responseTime({
         digits: 5
     }));
