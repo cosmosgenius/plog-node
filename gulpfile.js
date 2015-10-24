@@ -18,7 +18,7 @@ gulp.task('unit', ['pre-unit'] ,() => {
     return gulp.src('test/**/*.js')
         .pipe(mocha())
         .pipe(istanbul.writeReports())
-        .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
+        .pipe(istanbul.enforceThresholds({ thresholds: { global: 80 } }));
 });
 
 gulp.task('serve', () => {
@@ -29,9 +29,9 @@ gulp.task('serve', () => {
     });
 });
 
-gulp.task('watch-unit', ['unit'] , () => {
+gulp.task('watch-unit', () => {
     gulp.watch(['apps/**/*.js', 'test/**/*.js'], ['unit']);
 });
 
 gulp.task('test', ['unit']);
-gulp.task('default', []);
+gulp.task('default', ['serve']);

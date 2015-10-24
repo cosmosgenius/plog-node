@@ -3,42 +3,12 @@
 require('./lib/env')();
 let http = require('http');
 let mongoose = require('mongoose');
-let morgan = require('morgan');
-let responseTime = require('response-time');
 let app = require('./apps');
+
 let server = http.createServer(app);
-let env = process.env.NODE_ENV || 'dev';
-
-if('development' === env) {
-    mongoose.set('debug', true);
-    app.use(morgan('dev'));
-    app.use(responseTime({
-        digits: 5
-    }));
-}
-
-if('production' === env) {
-    mongoose.set('debug', false);
-    let format = {
-        'remote_addr': ':remote-addr',
-        'remote_user': ':remote-user',
-        'time': ':date[iso]',
-        'method': ':method',
-        'url': ':url',
-        'http_version': ':http-version',
-        'status': ':status',
-        'result_length': ':res[content-length]',
-        'referrer': ':referrer',
-        'user_agent': ':user-agent',
-        'response_time': ':response-time',
-    };
-    app.use(morgan(JSON.stringify(format)));
-    app.use(responseTime({
-        digits: 5
-    }));
-}
 
 let db = mongoose.connection;
+
 let dboptions = {
     server: {
         socketOptions: {
