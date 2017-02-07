@@ -8,13 +8,13 @@
   },
   "dependencies": {
     "config": "*",
-    "cors": "2.6.x",
-    "express": "4.12.x",
-    "jsonparser": "0.2.x",
+    "cors": "~2.8.1",
+    "express": "~4.14.1",
+    "jsonparser": "~1.0.1",
     "mongoose": "4.x",
     "morgan": "1.x",
     "response-time": "2.x",
-    "simple-bodyparser": "0.0.x"
+    "simple-bodyparser": "~1.0.0"
   },
   "devDependencies": {
     "blanket": "*",
