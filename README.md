@@ -6,6 +6,8 @@ Personal Logger RestAPI Server
 
 ## License
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/cosmosgenius/plog-node.svg)](https://greenkeeper.io/)
+
 The MIT License (MIT)
 
 Copyright (c) 2014-2015 Sharat M R <cosmosgenius@gmail.com>
